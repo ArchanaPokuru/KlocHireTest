@@ -7,6 +7,7 @@ import {
   Tooltip,
   XAxis,
   YAxis,
+  
 } from "recharts";
 // import './Barchart.css'
 const barColors = ["#1f77b4", "#ff7f0e"];
