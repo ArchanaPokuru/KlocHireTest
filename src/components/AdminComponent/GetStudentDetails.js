@@ -2,12 +2,9 @@ import React, { useEffect, useState } from "react";
 import { PieChart, Pie, Cell, Tooltip, Legend } from "recharts";
 import { useNavigate } from "react-router-dom";
 import { gapi } from "gapi-script";
-import jsPDF from "jspdf";
-import emailjs from "@emailjs/browser";
-import { Navbar } from "react-bootstrap";
 import "./index.css";
 import StudentsTable from "./StudentsTable";
-const SCOPES = "https://www.googleapis.com/auth/spreadsheets.readonly";
+const SCOPES = process.env.REACT_APP_SCOPE;
 
 const GetStudentsDetails = () => {
   const [sheetData, setSheetData] = useState([]);
@@ -16,18 +13,22 @@ const GetStudentsDetails = () => {
   const [filteredData, setFilteredData] = useState(sheetData);
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
-  const [scores,setScores]=useState({
-    java:0,react:0,js:0,ma:0
-  })
-  const [streams,setStreams]=useState({
-    interests:0,aptitude:0
-  })
+  const [scores, setScores] = useState({
+    java: 0,
+    react: 0,
+    js: 0,
+    ma: 0,
+  });
+  const [streams, setStreams] = useState({
+    interests: 0,
+    aptitude: 0,
+  });
   const navigate = useNavigate();
 
   useEffect(() => {
     const loadGoogleAPI = () => {
       const script = document.createElement("script");
-      script.src = "https://apis.google.com/js/api.js";
+      script.src = process.env.REACT_APP_SCRIPT_SRC;
       script.onload = initializeGoogleAPI;
       document.head.appendChild(script);
     };
@@ -44,7 +45,7 @@ const GetStudentsDetails = () => {
           scope: SCOPES,
           discoveryDocs: [
             "https://sheets.googleapis.com/$discovery/rest?version=v4",
-          ],
+          ], // don't write this in env file
         })
         .then(() => {
           console.log("Google API client initialized");
@@ -108,60 +109,84 @@ const GetStudentsDetails = () => {
     loadGoogleAPI();
   }, []);
 
-  const fetchingdat = () =>{
-    let java =0
-    let ma_order = JSON.parse(process.env.REACT_APP_MA_ORDER)
-    let ma_answers = JSON.parse(process.env.REACT_APP_MA_ANSWERS)
-      let js = 0 
-      let javapercentage = 0
-      let Napercentage = 0
-      let jsPercentage = 0 
-      let reactPercentage = 0
-      let mentalability = 0 
-      let react_score = 0
-      sheetData.map((item,index) =>{
-       Object.keys(item).map((score,i) =>{
-        if(i>2){
-          if(item[score] ==="TRUE" && JSON.parse(process.env.REACT_APP_JAVASCRIPT_ORDER).map(item =>parseInt(item)).includes(i-2) ){
-             java+=1
-             javapercentage=  java/sheetData.length/5 *100
+  const fetchingData = () => {
+    let java = 0;
+    let ma_order = JSON.parse(process.env.REACT_APP_MA_ORDER);
+    let ma_answers = JSON.parse(process.env.REACT_APP_MA_ANSWERS);
+    let js = 0;
+    let javapercentage = 0;
+    let Napercentage = 0;
+    let jsPercentage = 0;
+    let reactPercentage = 0;
+    let mentalability = 0;
+    let react_score = 0;
+    sheetData.map((item, index) => {
+      Object.keys(item).map((score, i) => {
+        if (i > 2) {
+          if (
+            item[score] === "TRUE" &&
+            JSON.parse(process.env.REACT_APP_JAVASCRIPT_ORDER)
+              .map((item) => parseInt(item))
+              .includes(i - 2)
+          ) {
+            java += 1;
+            javapercentage = (java / sheetData.length / 5) * 100;
           }
-          if(ma_order.map(item=> parseInt(item)).includes(i-2)){
-            if(typeof(ma_answers[ma_order.indexOf(i-2)]) === "string"){
-              if(item[score].toLowerCase() === ma_answers[ma_order.indexOf(i-2)].toLowerCase()){
-              mentalability  += 1
+          if (ma_order.map((item) => parseInt(item)).includes(i - 2)) {
+            if (typeof ma_answers[ma_order.indexOf(i - 2)] === "string") {
+              if (
+                item[score].toLowerCase() ===
+                ma_answers[ma_order.indexOf(i - 2)].toLowerCase()
+              ) {
+                mentalability += 1;
               }
+            } else {
+              if (
+                parseInt(item[score]) === ma_answers[ma_order.indexOf(i - 2)]
+              ) {
+                mentalability += 1;
+              }
+              Napercentage = (mentalability / sheetData.length / 5) * 100;
             }
-          else{
-            if(parseInt(item[score]) === ma_answers[ma_order.indexOf(i-2)]){
-              mentalability += 1
-           
-             }
-             Napercentage = mentalability/sheetData.length /5 *100
           }
+          if (
+            item[score] === "TRUE" &&
+            JSON.parse(process.env.REACT_APP_JAVASCRIPT_ORDER)
+              .map((item) => parseInt(item))
+              .includes(i - 2)
+          ) {
+            js += 1;
+            jsPercentage = (js / sheetData.length / 5) * 100;
           }
-          if(item[score]==="TRUE" && JSON.parse(process.env.REACT_APP_JAVASCRIPT_ORDER).map(item=> parseInt(item)).includes(i-2)){
-            js += 1
-            jsPercentage = js/sheetData.length/5 *100
-          }
-          if(item[score]==="TRUE" && JSON.parse(process.env.REACT_APP_REACT_ORDER).map(item=> parseInt(item)).includes(i-2)){
-           react_score += 1
-           reactPercentage = react_score/sheetData.length /5 *100
+          if (
+            item[score] === "TRUE" &&
+            JSON.parse(process.env.REACT_APP_REACT_ORDER)
+              .map((item) => parseInt(item))
+              .includes(i - 2)
+          ) {
+            react_score += 1;
+            reactPercentage = (react_score / sheetData.length / 5) * 100;
           }
         }
-  
-       })
-      
-      
-  
-      })
-      setScores({...scores,java:javapercentage,react:reactPercentage,ma:Napercentage,js:jsPercentage})
-      setStreams({...streams,interests:(javapercentage+reactPercentage+jsPercentage)/3,aptitude:Napercentage})
-    //  
-    }
-    useEffect (() =>{
-      fetchingdat()
-    },[sheetData])
+      });
+    });
+    setScores({
+      ...scores,
+      java: javapercentage,
+      react: reactPercentage,
+      ma: Napercentage,
+      js: jsPercentage,
+    });
+    setStreams({
+      ...streams,
+      interests: (javapercentage + reactPercentage + jsPercentage) / 3,
+      aptitude: Napercentage,
+    });
+    //
+  };
+  useEffect(() => {
+    fetchingData();
+  }, [sheetData]);
 
   sheetData.map((item, index) => {
     let Java_Score = 0;
@@ -245,6 +270,7 @@ const GetStudentsDetails = () => {
       const itemDate = new Date(item.Timestamp);
       const start = new Date(startDate);
       const end = new Date(endDate);
+      end.setDate(end.getDate() + 1); // Added one day to the end date
       return itemDate >= start && itemDate <= end;
     });
     setFilteredData(filtered);
@@ -256,36 +282,33 @@ const GetStudentsDetails = () => {
   };
 
   const pieData = [
-
     {
-      name:"Java",
-      value:scores.java
+      name: "Java",
+      value: scores.java,
     },
     {
-      name:"React",
-      value:scores.react
+      name: "React",
+      value: scores.react,
     },
     {
-      name:"JavaScript",
-      value:scores.js
+      name: "JavaScript",
+      value: scores.js,
     },
     {
-      name:"Mental Ability",
-      value:scores.ma
+      name: "Mental Ability",
+      value: scores.ma,
     },
-
-  ]
+  ];
   const pieData1 = [
-
     {
-      name:"Interests",
-      value:streams.interests
+      name: "Interests",
+      value: streams.interests,
     },
     {
-      name:"Aptitude",
-      value:streams.aptitude
+      name: "Aptitude",
+      value: streams.aptitude,
     },
-  ]
+  ];
   const COLORS = ["#8884d8", "#82ca9d", "#FFBB28", "#FF8042", "#AF19FF"];
   const COLORS1 = ["#8884d8", "#82ca9d"];
 
@@ -295,54 +318,10 @@ const GetStudentsDetails = () => {
         <p>
           {isSignedIn ? (
             <>
-            <div style={{display:"flex",justifyContent:"space-around",marginTop:"20px"}}>
-            <PieChart width={730} height={300}>
-      <Pie
-         data={pieData}
-         color="#000000"
-         dataKey="value"
-         nameKey="name"
-         cx="50%"
-         cy="50%"
-         outerRadius={120}
-         fill="#8884d8"
-      >
-         {pieData.map((entry, index) => (
-            <Cell
-               key={`cell-${index}`}
-               fill={COLORS[index % COLORS.length]}
-            />
-         ))}
-      </Pie>
-      <Tooltip />
-      <Legend />
-      </PieChart>
-      <PieChart width={730} height={300}>
-      <Pie
-         data={pieData1}
-         color="#000000"
-         dataKey="value"
-         nameKey="name"
-         cx="50%"
-         cy="50%"
-         outerRadius={120}
-         fill="#8884d8"
-      >
-         {pieData.map((entry, index) => (
-            <Cell
-               key={`cell-${index}`}
-               fill={COLORS1[index % COLORS1.length]}
-            />
-         ))}
-      </Pie>
-      <Tooltip />
-      <Legend />
-      </PieChart>
-      </div>
-            <span className='display-between'>
-              Email : {userEmail}{" "}
-              <button onClick={handleSignOut}>Sign Out</button>
-            </span>
+              <span className='display-between'>
+                Email : {userEmail}{" "}
+                <button onClick={handleSignOut}>Sign Out</button>
+              </span>
             </>
           ) : (
             <div className='display-column'>
@@ -360,6 +339,56 @@ const GetStudentsDetails = () => {
       </div>
       {isSignedIn && sheetData.length > 0 && (
         <div>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-around",
+              marginTop: "20px",
+            }}
+          >
+            <PieChart width={730} height={300}>
+              <Pie
+                data={pieData}
+                color='#000000'
+                dataKey='value'
+                nameKey='name'
+                cx='50%'
+                cy='50%'
+                outerRadius={120}
+                fill='#8884d8'
+              >
+                {pieData.map((entry, index) => (
+                  <Cell
+                    key={`cell-${index}`}
+                    fill={COLORS[index % COLORS.length]}
+                  />
+                ))}
+              </Pie>
+              <Tooltip />
+              <Legend />
+            </PieChart>
+            <PieChart width={730} height={300}>
+              <Pie
+                data={pieData1}
+                color='#000000'
+                dataKey='value'
+                nameKey='name'
+                cx='50%'
+                cy='50%'
+                outerRadius={120}
+                fill='#8884d8'
+              >
+                {pieData.map((entry, index) => (
+                  <Cell
+                    key={`cell-${index}`}
+                    fill={COLORS1[index % COLORS1.length]}
+                  />
+                ))}
+              </Pie>
+              <Tooltip />
+              <Legend />
+            </PieChart>
+          </div>
           <div className='display-center'>
             <div className='display-between'>
               Start Date:{" "}
