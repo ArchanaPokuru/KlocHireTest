@@ -1,4 +1,6 @@
+// Test Component used to get the google form to take the test
 import React from "react";
+import './index.css'
 
 const PsychoMetricText = () => {
   return (
@@ -7,9 +9,8 @@ const PsychoMetricText = () => {
         <div>
           <div>
             <iframe
-              title='Google Form'
-              src='https://docs.google.com/forms/d/e/1FAIpQLSdFjj1yaEfqFu0RbZkcDf8D3E92LJyZCYGtBlzURhEdXmPvvQ/viewform?embedded=true'
-              width='640'
+              src='https://docs.google.com/forms/d/e/1FAIpQLSc6Awak0_3NAajQr7wKL2Rs_Uchp6wbmzQSmeiobQHPoe0idg/viewform?embedded=true'
+              width='1000'
               height='5154'
             >
               Loading…
