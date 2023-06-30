@@ -38,7 +38,7 @@ function TestReport() {
       width: 40,
       headerClassName: "table-header",
       cellClassName: "table-cell",
-      sortable:false
+      sortable: false,
     },
     {
       field: "Timestamp",
@@ -46,7 +46,7 @@ function TestReport() {
       width: 100,
       headerClassName: "table-header",
       cellClassName: "table-cell",
-      sortable:false
+      sortable: false,
     },
     {
       field: "Full_Name",
@@ -69,7 +69,7 @@ function TestReport() {
       renderCell: (params) => (
         <div
           style={{
-            width:'130px',
+            width: "130px",
             wordWrap: "break-word",
             whiteSpace: "wrap",
           }}
@@ -84,7 +84,7 @@ function TestReport() {
       width: 120,
       headerClassName: "table-header",
       cellClassName: "table-cell",
-      sortable:false
+      sortable: false,
     },
     {
       field: "Parent_Email_Id",
@@ -93,9 +93,11 @@ function TestReport() {
       headerClassName: "table-header",
       cellClassName: "table-cell",
       renderCell: (params) => (
-        <div style={{ whiteSpace: "wrap",
-        wordWrap: "break-word",
-        width:'130px' }}>{params.value}</div>
+        <div
+          style={{ whiteSpace: "wrap", wordWrap: "break-word", width: "130px" }}
+        >
+          {params.value}
+        </div>
       ),
     },
     {
@@ -104,7 +106,7 @@ function TestReport() {
       width: 120,
       headerClassName: "table-header",
       cellClassName: "table-cell",
-      sortable:false
+      sortable: false,
     },
     {
       field: "Score",
@@ -152,7 +154,7 @@ function TestReport() {
       cellClassName: "table-cell",
       width: 100,
       headerClassName: "table-header",
-      sortable:false,
+      sortable: false,
       renderCell: (params) => (
         <button
           onClick={() => {
@@ -166,7 +168,7 @@ function TestReport() {
             fontSize: "10px",
             backgroundColor: "lightblue",
             fontWeight: "bold",
-            border:'none'
+            border: "none",
           }}
         >
           View Score
@@ -177,7 +179,7 @@ function TestReport() {
       field: "View data",
       headerName: "View Data",
       width: 100,
-      sortable:false,
+      sortable: false,
       renderCell: (params) => (
         <button
           onClick={() => navigate("/studentBarChart", { state: params.row })}
@@ -188,7 +190,7 @@ function TestReport() {
             fontSize: "10px",
             backgroundColor: "lightgrey",
             fontWeight: "bold",
-            border:'none'
+            border: "none",
           }}
         >
           View Data
@@ -399,7 +401,7 @@ function TestReport() {
             onChange={handleSearch}
             onKeyDown={handleKeyDown}
             style={{ marginBottom: "20px", marginLeft: "25px" }}
-            className='input-search'
+            className='input-search input'
           />
         </div>
         {/* filter with start date, end date and filter button */}
@@ -411,6 +413,7 @@ function TestReport() {
               value={startDate}
               onChange={(e) => setStartDate(e.target.value)}
               style={{ marginLeft: "10px" }}
+              className='date-input'
             />
           </div>
           <div className='display-between'>
@@ -418,6 +421,7 @@ function TestReport() {
             <input
               type='date'
               value={endDate}
+              className='date-input'
               onChange={(e) => setEndDate(e.target.value)}
               style={{ marginLeft: "10px" }}
             />
