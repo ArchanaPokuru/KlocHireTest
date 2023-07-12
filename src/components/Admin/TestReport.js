@@ -9,7 +9,7 @@ import "./index.css";
 
 function TestReport(props) {
   // location varaiable to get location of the testReport route and state
-  const {datat}=props
+  const { datat } = props;
   const location = useLocation();
   // useState of data to store stream recommendation test data responses
   const [data, setData] = useState(
@@ -66,7 +66,7 @@ function TestReport(props) {
       renderCell: (params) => (
         <div
           style={{
-            width:'130px',
+            width: "130px",
             wordWrap: "break-word",
             whiteSpace: "wrap",
           }}
@@ -81,27 +81,29 @@ function TestReport(props) {
       width: 120,
       headerClassName: "table-header",
       cellClassName: "table-cell",
-      sortable:false
+      sortable: false,
     },
     {
       field: "Parent_Email_Id",
-      headerName: "Parent Email Id",
+      headerName: "Parent's Email Id",
       width: 160,
       headerClassName: "table-header",
       cellClassName: "table-cell",
       renderCell: (params) => (
-        <div style={{ whiteSpace: "wrap",
-        wordWrap: "break-word",
-        width:'130px' }}>{params.value}</div>
+        <div
+          style={{ whiteSpace: "wrap", wordWrap: "break-word", width: "130px" }}
+        >
+          {params.value}
+        </div>
       ),
     },
     {
       field: "Parent_Phone_Number",
-      headerName: "Parent Phone Number",
+      headerName: "Parent's Phone Number",
       width: 120,
       headerClassName: "table-header",
       cellClassName: "table-cell",
-      sortable:false
+      sortable: false,
     },
     {
       field: "Score",
@@ -149,7 +151,7 @@ function TestReport(props) {
       cellClassName: "table-cell",
       width: 100,
       headerClassName: "table-header",
-      sortable:false,
+      sortable: false,
       renderCell: (params) => (
         <button
           onClick={() => {
@@ -162,11 +164,11 @@ function TestReport(props) {
             height: "30px",
             fontSize: "10px",
             backgroundColor: "#004461",
-            borderRadius:'5px',
-            marginLeft:"10px",
-            color:"#FFFFFF",
+            borderRadius: "5px",
+            marginLeft: "10px",
+            color: "#FFFFFF",
             fontWeight: "bold",
-            border:'none'
+            border: "none",
           }}
         >
           View Score
@@ -177,7 +179,7 @@ function TestReport(props) {
       field: "View data",
       headerName: "View Data",
       width: 100,
-      sortable:false,
+      sortable: false,
       renderCell: (params) => (
         <button
           onClick={() => navigate("/studentBarChart", { state: params.row })}
@@ -187,11 +189,11 @@ function TestReport(props) {
             height: "30px",
             fontSize: "10px",
             backgroundColor: "#ED2B2A",
-            borderRadius:'5px',
-            marginLeft:"10px",
-            color:"#FFFFFF",
+            borderRadius: "5px",
+            marginLeft: "10px",
+            color: "#FFFFFF",
             fontWeight: "bold",
-            border:'none'
+            border: "none",
           }}
         >
           View Data
@@ -294,12 +296,12 @@ function TestReport(props) {
     <>
       {/* table container with search, filter by date and table data */}
       <div>
-        <h1 className="test-report-heading">
+        <h1 className='test-report-heading'>
           Stream Recommendation Test Tabulation Data
         </h1>
         {/* search input container */}
         <div className='input-label-container text-center'>
-          <label htmlFor='search'>Search by Student Email :</label>
+          <label htmlFor='search'>Search by Student's Email :</label>
           <input
             id='search'
             value={search}
@@ -317,9 +319,9 @@ function TestReport(props) {
             <input
               type='date'
               value={startDate}
-              className="test-report-date-input"
+              className='test-report-date-input'
               onChange={(e) => setStartDate(new Date(e.target.value))}
-              max = {new Date().toISOString().split("T")[0]}
+              max={new Date().toISOString().split("T")[0]}
               style={{ marginLeft: "10px" }}
             />
           </div>
@@ -328,14 +330,21 @@ function TestReport(props) {
             <input
               type='date'
               value={endDate}
-              className="test-report-date-input"
+              className='test-report-date-input'
               onChange={(e) => setEndDate(new Date(e.target.value))}
-              max = {new Date().toISOString().split("T")[0]}
+              max={new Date().toISOString().split("T")[0]}
               style={{ marginLeft: "10px" }}
             />
           </div>
           <button
-            style={{ padding: "3px", width: "60px",backgroundColor:"#004461",color:'#FFFFFF',border:'none',borderRadius:'5px' }}
+            style={{
+              padding: "3px",
+              width: "60px",
+              backgroundColor: "#004461",
+              color: "#FFFFFF",
+              border: "none",
+              borderRadius: "5px",
+            }}
             onClick={handleFilter}
           >
             Filter
@@ -388,11 +397,11 @@ function TestReport(props) {
                     <p className='td'>{item.Phone_Number}</p>
                   </div>
                   <div className='table-data'>
-                    <p>Parent Email Id</p>
+                    <p>Parent's Email Id</p>
                     <p className='td'>{item.Parent_Email_Id}</p>
                   </div>
                   <div className='table-data'>
-                    <p>Parent Phone Number</p>
+                    <p>Parent's Phone Number</p>
                     <p className='td'>{item.Parent_Phone_Number}</p>
                   </div>
                   <div className='table-data'>
