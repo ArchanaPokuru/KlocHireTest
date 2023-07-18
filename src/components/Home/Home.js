@@ -21,14 +21,9 @@ function Home() {
             <img
               src='https://res.cloudinary.com/de5cu0mab/image/upload/v1688971136/Logo_Final_uovjgi.png'
               alt='logo'
-              style={{
-                height: "50px",
-                width: "100px",
-                borderRadius: "10px",
-                border: "none",
-                backgroundColor: "white",
-              }}
+              className="logo"
             />
+            <h6 className="test-heading">Stream Recommendation Test</h6>
           </div>
           <div className='desktopHeaderNavbarContainer'>
             {/* when clicking this Home text, it'll navigates to home route */}
@@ -96,16 +91,10 @@ function Home() {
           </div>
         </div>
         <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            color: "#010000",
-            backgroundImage: "linear-gradient(to top, #feada6, #f5efef)",
-            height: "100vh",
-          }}
+          className="text-container"
         >
-          <h1 style={{ color: "#111359" }}>Welcome to Study Global</h1>
+          <h1>Welcome to Study Global</h1>
+          <h1>Overseas Education Consultants</h1>
         </div>
       </div>
       <Footer />

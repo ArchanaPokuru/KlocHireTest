@@ -13,11 +13,12 @@ function TestReport(props) {
   const location = useLocation();
   // useState of data to store stream recommendation test data responses
   const [data, setData] = useState(
-    (datat || []).map((field, index) => ({
+    ([...datat].reverse() || []).map((field, index) => ({
       ...field,
       id: index + 1, // Adding 1 to index to make IDs start from 1
     }))
   );
+
   // navigate variable used to naviagating to different routes
   const navigate = useNavigate();
   // usestate of search to store search data
@@ -113,6 +114,13 @@ function TestReport(props) {
       cellClassName: "table-cell",
     },
     {
+      field: "percentage",
+      headerName: "percentage",
+      width: 100,
+      headerClassName: "table-header",
+      cellClassName: "table-cell",
+    },
+    {
       field: "humanities_score",
       headerName: "Humanities Score",
       width: 100,
@@ -147,7 +155,7 @@ function TestReport(props) {
     },
     {
       field: "View Score",
-      headerName: "View Score",
+      headerName: "View Report",
       cellClassName: "table-cell",
       width: 100,
       headerClassName: "table-header",
@@ -160,7 +168,6 @@ function TestReport(props) {
           }}
           style={{
             padding: "4px",
-            width: "60px",
             height: "30px",
             fontSize: "10px",
             backgroundColor: "#004461",
@@ -171,13 +178,13 @@ function TestReport(props) {
             border: "none",
           }}
         >
-          View Score
+          View Report
         </button>
       ),
     },
     {
       field: "View data",
-      headerName: "View Data",
+      headerName: "View Details",
       width: 100,
       sortable: false,
       renderCell: (params) => (
@@ -185,7 +192,6 @@ function TestReport(props) {
           onClick={() => navigate("/studentBarChart", { state: params.row })}
           style={{
             padding: "4px",
-            width: "60px",
             height: "30px",
             fontSize: "10px",
             backgroundColor: "#ED2B2A",
@@ -196,7 +202,7 @@ function TestReport(props) {
             border: "none",
           }}
         >
-          View Data
+          View Details
         </button>
       ),
     },
@@ -246,13 +252,13 @@ function TestReport(props) {
       // if Total_Score column is not present in google sheet, the below code will execute
       // fetching an sheet db api to access the required data in google sheet
       fetch(
-        `https://sheetdb.io/api/v1/bhymdl2yiryk4/Email_Address/${item.Email_Address}`,
+        `https://sheetdb.io/api/v1/4c3fbfomg38uv/Email_Address/${item.Email_Address}`,
         {
           method: "PATCH",
           headers: {
             Accept: "application/json",
             "Content-Type": "application/json",
-            Authorization: "Bearer q031lh4xf0lyhtpa9mk47wiyqyaitt6xowfd8zp3",
+            Authorization: "Bearer  00icuozoymtuvwdrtuhdsrx2y78g6tx4a7m5eptx",
           },
           // in body we need to add all the required data to update it in google sheet
           body: JSON.stringify({
@@ -296,41 +302,41 @@ function TestReport(props) {
     <>
       {/* table container with search, filter by date and table data */}
       <div>
-        <h1 className='test-report-heading'>
+        <h1 className="test-report-heading">
           Stream Recommendation Test Tabulation Data
         </h1>
         {/* search input container */}
-        <div className='input-label-container text-center'>
-          <label htmlFor='search'>Search by Student's Email :</label>
+        <div className="input-label-container text-center">
+          <label htmlFor="search">Search by Student's Email :</label>
           <input
-            id='search'
+            id="search"
             value={search}
-            type='text'
+            type="text"
             onChange={handleSearch}
             onKeyDown={handleKeyDown}
             style={{ marginBottom: "20px", marginLeft: "25px" }}
-            className='input-search'
+            className="input-search"
           />
         </div>
         {/* filter with start date, end date and filter button */}
-        <div className='test-report-date-filter'>
-          <div className='test-report-display-between'>
+        <div className="test-report-date-filter">
+          <div className="test-report-display-between">
             Start Date:{"   "}
             <input
-              type='date'
-              value={startDate}
-              className='test-report-date-input'
+              type="date"
+              // value={startDate}
+              className="test-report-date-input"
               onChange={(e) => setStartDate(new Date(e.target.value))}
               max={new Date().toISOString().split("T")[0]}
               style={{ marginLeft: "10px" }}
             />
           </div>
-          <div className='test-report-display-between'>
+          <div className="test-report-display-between">
             End Date:{" "}
             <input
-              type='date'
-              value={endDate}
-              className='test-report-date-input'
+              type="date"
+              // value={endDate}
+              className="test-report-date-input"
               onChange={(e) => setEndDate(new Date(e.target.value))}
               max={new Date().toISOString().split("T")[0]}
               style={{ marginLeft: "10px" }}
@@ -352,7 +358,7 @@ function TestReport(props) {
         </div>
 
         {/* desktop table container with table of stream recommendation test data respones */}
-        <div className='d-none d-lg-block'>
+        <div className="d-none d-lg-block">
           {filteredData.length > 0 ? (
             <div style={{ minHeight: 100, width: "95%", margin: "auto" }}>
               <DataGrid
@@ -368,61 +374,65 @@ function TestReport(props) {
               />
             </div>
           ) : (
-            <p className='text-center'> No Data Found</p>
+            <p className="text-center"> No Data Found</p>
           )}
         </div>
         {/* mobile table container with table of stream recommendation test data responses */}
-        <div className='d-lg-none mobile-table-container'>
+        <div className="d-lg-none mobile-table-container">
           {filteredData.length > 0
             ? filteredData.map((item, index) => (
-                <div className='table-data-container'>
-                  <div className='table-data'>
-                    <p className='th'>Id</p>
-                    <p className='td'>{item.id}</p>
+                <div className="table-data-container">
+                  <div className="table-data">
+                    <p className="th">Id</p>
+                    <p className="td">{item.id}</p>
                   </div>
-                  <div className='table-data'>
+                  <div className="table-data">
                     <p>Completed On</p>
-                    <p className='td'>{item.Timestamp}</p>
+                    <p className="td">{item.Timestamp}</p>
                   </div>
-                  <div className='table-data'>
+                  <div className="table-data">
                     <p>Full Name</p>
-                    <p className='td'>{item.Full_Name}</p>
+                    <p className="td">{item.Full_Name}</p>
                   </div>
-                  <div className='table-data'>
+                  <div className="table-data">
                     <p>Email Address</p>
-                    <p className='td'>{item.Email_Address}</p>
+                    <p className="td">{item.Email_Address}</p>
                   </div>
-                  <div className='table-data'>
+                  <div className="table-data">
                     <p>Phone Number</p>
-                    <p className='td'>{item.Phone_Number}</p>
+                    <p className="td">{item.Phone_Number}</p>
                   </div>
-                  <div className='table-data'>
+                  <div className="table-data">
                     <p>Parent's Email Id</p>
-                    <p className='td'>{item.Parent_Email_Id}</p>
+                    <p className="td">{item.Parent_Email_Id}</p>
                   </div>
-                  <div className='table-data'>
+                  <div className="table-data">
                     <p>Parent's Phone Number</p>
-                    <p className='td'>{item.Parent_Phone_Number}</p>
+                    <p className="td">{item.Parent_Phone_Number}</p>
                   </div>
-                  <div className='table-data'>
+                  <div className="table-data">
                     <p>Total Score</p>
-                    <p className='td'>{item.Score}</p>
+                    <p className="td">{item.Score}</p>
                   </div>
-                  <div className='table-data'>
+                  <div className="table-data">
+                    <p>percentage</p>
+                    <p className="td">{item.percentage}</p>
+                  </div>
+                  <div className="table-data">
                     <p>Humanities Score</p>
-                    <p className='td'>{item.humanities_score}</p>
+                    <p className="td">{item.humanities_score}</p>
                   </div>
-                  <div className='table-data'>
+                  <div className="table-data">
                     <p>Commerce Score</p>
-                    <p className='td'>{item.commerce_score}</p>
+                    <p className="td">{item.commerce_score}</p>
                   </div>
-                  <div className='table-data'>
+                  <div className="table-data">
                     <p>Science With Bio Score</p>
-                    <p className='td'>{item.science_bio_score}</p>
+                    <p className="td">{item.science_bio_score}</p>
                   </div>
-                  <div className='table-data'>
+                  <div className="table-data">
                     <p>Science With Math Score</p>
-                    <p className='td'>{item.science_math_score}</p>
+                    <p className="td">{item.science_math_score}</p>
                   </div>
                   {/* clicking view Score button it'll navigates to studentChart route */}
                   <div
@@ -434,25 +444,25 @@ function TestReport(props) {
                   >
                     <div style={{ textAlign: "center", marginRight: "20px" }}>
                       <button
-                        className='view-button'
+                        className="view-button"
                         onClick={() => {
                           navigate("/studentChart", { state: item });
                           handleUpdate(item);
                         }}
                       >
-                        View Score
+                        View Report
                       </button>
                     </div>
                     {/* clicking view Data button it'll navigates to studentBarChart route */}
                     <div style={{ textAlign: "center" }}>
                       <button
                         style={{ backgroundColor: "#ED2B2A" }}
-                        className='view-button'
+                        className="view-button"
                         onClick={() =>
                           navigate("/studentBarChart", { state: item })
                         }
                       >
-                        View Data
+                        View Details
                       </button>
                     </div>
                   </div>

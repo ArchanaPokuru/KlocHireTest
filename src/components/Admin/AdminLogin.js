@@ -21,6 +21,7 @@ const AdminLogin = () => {
   const [isDashboard, setIsDashboard] = useState(false);
   const [isAssessment, setIsAssessment] = useState(false);
   const [isTestReports, setIsTestReports] = useState(false);
+  const [isPopUpOpen, setIsPopUpOpen] = useState(false);
   // streamData usestate to store data responses for all tests
   const [streamData, setStreamData] = useState([]);
   // usestate to store user email of client
@@ -269,8 +270,13 @@ const AdminLogin = () => {
       item.science_math_score =
         science_math_aptitude_score + science_math_interests_score;
       item.total_score = total_score;
+      item.percentage =
+        ((total_score / process.env.REACT_APP_TOTAL_QUESTIONS) * 100).toFixed(
+          2
+        ) + "%";
     });
   };
+  console.log(typeof process.env.REACT_APP_TOTAL_QUESTIONS, "env");
 
   // after component rendering, fetchStreamTabulationData function logic will execute
   useEffect(() => {
@@ -299,80 +305,79 @@ const AdminLogin = () => {
     setIsDashboard(false);
     setIsAssessment(false);
     setIsTestReports(false);
+    setIsPopUpOpen(false);
   };
   // handleDashboard function to set useState of isDashboard to true and others to false
   const handleDashboard = () => {
     setIsDashboard(true);
     setIsAssessment(false);
     setIsTestReports(false);
+    setIsPopUpOpen(false);
   };
   // handleAssessment function to set useState of isAssessment to true and others to false
   const handleAssessment = () => {
     setIsDashboard(false);
     setIsAssessment(true);
     setIsTestReports(false);
+    setIsPopUpOpen(false);
   };
   // handleTestReports function to set useState of isTestReports to true and others to false
   const handleTestReports = () => {
     setIsDashboard(false);
     setIsAssessment(false);
     setIsTestReports(true);
+    setIsPopUpOpen(false);
   };
 
   return (
     <div>
-      <div className='admin-container'>
+      <div className="admin-container">
         {isSignedIn ? (
           // if admin has signedIn, the below code will render
-          <div className='admin-header-container'>
+          <div className="admin-header-container">
             {/* header for desktop  with Logo and components Dashboard, Assessments, Test Reports, Student Reports and Sign Out */}
-            <div className='admin-header-logo-container'>
+            <div className="admin-header-logo-container">
               {/* logo and after clicking this logo, it'll navigates to home route*/}
               <img
-                src='https://res.cloudinary.com/de5cu0mab/image/upload/v1688971136/Logo_Final_uovjgi.png'
-                alt='logo'
-                style={{
-                  height: "50px",
-                  width: "100px",
-                  borderRadius: "10px",
-                  border: "none",
-                  backgroundColor: "white",
-                }}
+                src="https://res.cloudinary.com/de5cu0mab/image/upload/v1688971136/Logo_Final_uovjgi.png"
+                alt="logo"
+                className="logo"
                 onClick={() => navigate("/")}
               />
+              <h6 className="test-heading">Stream Recommendation Test</h6>
             </div>
-            <div className='admin-desktop-header-navbar-container'>
+            <div className="admin-desktop-header-navbar-container">
               {/* when clicking this Dashboard text, it'll navigates to dashboard route */}
               <p
                 onClick={() => handleDashboard()}
-                className='admin-desktop-header-navbar-link'
+                className="admin-desktop-header-navbar-link"
               >
                 Dashboard
               </p>
               {/* when clicking this Assessments text, it'll navigates to send assessments route */}
               <p
                 onClick={() => handleAssessment()}
-                className='admin-desktop-header-navbar-link'
+                className="admin-desktop-header-navbar-link"
               >
                 Assessments
               </p>
               {/* when clicking this Test Report text, it'll navigates to test report route */}
               <p
                 onClick={() => handleTestReports()}
-                className='admin-desktop-header-navbar-link'
+                className="admin-desktop-header-navbar-link"
               >
                 Test Report
               </p>
               {/* when clicking this Sign Out text, it'll navigates to admin login route and agains admin needs to sign in to access all routes */}
               <p
-                className='admin-desktop-header-navbar-link'
+                className="admin-desktop-header-navbar-link"
                 onClick={handleSignOut}
               >
                 Sign Out
               </p>
             </div>
             {/* nav header for mobile  with Logo and components Dashboard, Assessments, Test Report and Sign Out */}
-            <div className='admin-mobile-header-navbar-container'>
+            <div className="admin-mobile-header-navbar-container">
               <Popup
                 contentStyle={{
                   width: "70%",
@@ -384,38 +389,40 @@ const AdminLogin = () => {
                   alignItems: "center",
                 }}
                 trigger={
-                  <button className='admin-hamburger-btn'>
-                    <GiHamburgerMenu />
+                  <button className="admin-hamburger-btn">
+                    <GiHamburgerMenu onClick={() => setIsPopUpOpen(true)} />
                   </button>
                 }
-                position='bottom right'
+                position="bottom right"
+                open={isPopUpOpen}
+                onClose={() => setIsPopUpOpen(false)}
               >
-                <ul className='admin-mobile-hamburger-menu'>
+                <ul className="admin-mobile-hamburger-menu">
                   {/* when clicking this Dashboard text, it'll navigates to dashboard route */}
                   <li
                     onClick={() => handleDashboard()}
-                    className='admin-header-navbar-link'
+                    className="admin-header-navbar-link"
                   >
                     Dashboard
                   </li>
                   {/* when clicking this Assessments text, it'll navigates to send assessments route */}
                   <li
                     onClick={() => handleAssessment()}
-                    className='admin-header-navbar-link'
+                    className="admin-header-navbar-link"
                   >
                     Assessments
                   </li>
                   {/* when clicking this Test Report text, it'll navigates to test report route */}
                   <li
                     onClick={() => handleTestReports()}
-                    className='admin-header-navbar-link'
+                    className="admin-header-navbar-link"
                   >
                     Test Report
                   </li>
                   {/* when clicking this Sign Out text, it'll navigates to admin login route and agains admin needs to sign in to access all routes */}
                   <li
                     onClick={handleSignOut}
-                    className='admin-header-navbar-link'
+                    className="admin-header-navbar-link"
                   >
                     Sign Out
                   </li>
@@ -425,13 +432,13 @@ const AdminLogin = () => {
           </div>
         ) : (
           // if admin hasn't signedIn, the below code will render
-          <div className='display-column'>
+          <div className="display-column">
             <h2>Login With Google</h2>
             {/* if admin clicks this button, he can sign in into his account and get access for all routes */}
-            <button onClick={handleSignIn} className='google-signin-button'>
+            <button onClick={handleSignIn} className="google-signin-button">
               <img
-                src='https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg'
-                alt='Google Logo'
+                src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg"
+                alt="Google Logo"
               />
               Sign In with Google
             </button>

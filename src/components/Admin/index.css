@@ -10,7 +10,6 @@
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: center;
-  align-items: center;
 }
 
 .table-header {
@@ -41,7 +40,7 @@ table td {
 
 table {
   width: 100%;
-  margin-top: 20px;
+  margin-bottom: 20px;
   border-collapse: collapse;
 }
 
@@ -87,7 +86,7 @@ th {
   border: 1px solid black;
   width: 400px;
   min-height: 700px;
-  height: fit-content;
+  justify-content: space-around;
   margin: 30px;
   display: flex;
   flex-direction: column;
@@ -271,10 +270,12 @@ th {
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-top: 30px;
-  margin-left: 20px;
-  margin-bottom: 30px;
+  margin-top: 10px;
+  margin-left: 30px;
+  margin-bottom: 10px;
+  display: flex;
 }
+
 @media screen and (max-width: 920px) {
   .charts {
     display: flex;
@@ -437,13 +438,11 @@ th {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin-right: 40px;
 }
 .rank-heading {
   text-align: center;
   margin-top: 20px;
   font-size: 40px;
-  margin-bottom: 20px;
 }
 .student-details-heading {
   font-size: 28px;
@@ -459,6 +458,7 @@ th {
   width: 80%;
   margin: auto;
   padding: 5px;
+  margin-bottom: 10px;
 }
 .barchart-student-details-container {
   display: flex;
@@ -481,6 +481,7 @@ th {
 
 .barchart-container-responsive {
   display: flex;
+  flex-direction: column;
   justify-content: space-between;
   align-items: center;
 }
@@ -530,6 +531,7 @@ th {
   align-items: center;
   margin-bottom: 10px;
   margin-left: 20px;
+  flex-wrap: wrap;
 }
 .barchart-table-container {
   display: flex;
@@ -538,7 +540,7 @@ th {
   margin-left: 50px;
 }
 .barchart {
-  margin-left: 0px;
+  margin-left: -50px;
 }
 
 .table-container {
@@ -547,7 +549,6 @@ th {
   text-align: center;
   justify-content: center;
   align-items: center;
-  padding: 10px;
   width: 500px;
 }
 .chart-buttons-container {
@@ -560,7 +561,7 @@ th {
 .barchart-heading {
   text-align: center;
   font-size: 30px;
-  margin-bottom: 10px;
+  margin-top: 15px;
 }
 th,
 td {
@@ -581,7 +582,6 @@ td {
 }
 @media screen and (max-width: 600px) {
   .table-container {
-    margin-right: -40px;
   }
 }
 @media screen and (max-width: 430px) {
@@ -596,7 +596,6 @@ td {
   }
   .table-container {
     width: 320px;
-    margin-right: -30px;
   }
   .chart-buttons-container {
     margin-left: 25px;
@@ -612,17 +611,20 @@ td {
   .table-container {
     width: 300px;
     margin-left: 10px;
-    margin-right: -30px;
   }
   .barchart {
     margin-left: -30px;
   }
 }
+
+@media screen and (max-width: 340px) {
+  .send-btn {
+    width: 70px;
+  }
+}
 @media screen and (max-width: 300px) {
   .table-container {
     width: 180px;
-    margin-left: 45px;
-    margin-right: 10px;
   }
   .barchart-table-container {
     width: 200px;
@@ -796,9 +798,9 @@ td {
   justify-content: center;
   align-items: center;
   min-height: 200px;
-  width: 400px;
+  width: 500px;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-  padding: 20px;
+  padding: 30px;
   border-radius: 10px;
   flex-wrap: wrap;
   flex-grow: 1;
@@ -830,6 +832,7 @@ td {
   text-shadow: 1px 1px #fff;
   font-weight: 700;
   font-size: 10px;
+  width: 410px;
 }
 .cards-container {
   display: flex;
@@ -853,10 +856,16 @@ td {
   .assessments-container {
     width: 300px;
   }
+  .file-upload-btn {
+    width: 100px;
+  }
 }
 @media screen and (max-width: 300px) {
   .assessments-container {
     width: 250px;
+  }
+  .file-upload-btn {
+    width: 100px;
   }
   .label {
     font-size: 15px;
@@ -874,4 +883,88 @@ td {
   padding: 8px;
   border-radius: 5px;
   color: #ffffff;
+}
+
+@media print {
+  .pdf-only {
+    display: block;
+  }
+}
+@media screen {
+  .pdf-only {
+    display: none;
+  }
+}
+@media screen and (max-width: 500px) {
+  .buttons-cont {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+  }
+  .send {
+    margin-bottom: 10px;
+    margin-right: 30px;
+    width: 120px;
+    height: 60px;
+  }
+}
+@media screen and (max-width: 400px) {
+  .charts {
+    width: 300px;
+  }
+  .details {
+    font-size: 16px;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .buttons-cont {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+  }
+  .send-btn {
+    margin-bottom: 10px;
+    margin-right: 30px;
+    width: 120px;
+    height: 60px;
+  }
+}
+
+@media screen and (max-width: 300px) {
+  .table-container {
+    width: 180px;
+    margin-left: 45px;
+    margin-right: 10px;
+  }
+  .barchart-table-container {
+    width: 200px;
+    margin-left: 10px;
+  }
+  .barchart {
+    margin-left: -80px;
+    padding-left: 0px;
+  }
+  .send-btn {
+    font-size: 10px;
+    width: 80px;
+    height: 50px;
+  }
+  .barchart-heading {
+    width: 200px;
+  }
+}
+@media screen and (max-width: 300px) {
+  .charts {
+    width: 220px;
+  }
+  .details {
+    font-size: 12px;
+  }
+  .send {
+    width: 80px;
+    font-size: 10px;
+  }
 }

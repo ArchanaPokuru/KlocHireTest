@@ -107,9 +107,9 @@ function SendAssessments(props) {
   };
   // triggers when send button clicked
   const handleSendEmail = () => {
-    const subject = "Hello you are invited to write this test!"; // email subject
+    const subject = "Stream Recommendation Test from Study Global"; // email subject
     const body =
-      "Hello user, you're invited to write the test. %0D%0A Link: http://localhost:3000/studentLogin %0D%0A %0D%0A %0D%0A"; // email  body
+      "Dear Candidate: %0D%0A     We are pleased to invite you to write a stream recommendation test that will help us pick a career path that suits your aptitude and interests.  %0D%0AHere is the link to our free test: https://study-global.netlify.app/studentLogin %0D%0A %0D%0AThank You%0D%0AStudy Global Team  %0D%0A %0D%0A %0D%0A"; // email  body
     // send mail when file format is txt, docx, xls, xlsx
     if (
       fileExtension === "txt" ||
@@ -160,30 +160,32 @@ function SendAssessments(props) {
         </h1>
         <div className='assessments-container'>
           <div>
-            <input
-              type='radio'
-              value='file'
-              id='file'
-              name='send'
-              onChange={handleMailSentTypeChange}
-              className='radio'
-            />
-            <label htmlFor='file' className='label'>
-              Import from File
-            </label>
-            <br />
-            <input
-              type='radio'
-              value='manual'
-              id='manual'
-              name='send'
-              onChange={handleMailSentTypeChange}
-              className='radio'
-            />
-            <label htmlFor='manual' className='label'>
-              Enter Email Id's
-            </label>
-            <br />
+            <div>
+              <input
+                type='radio'
+                value='file'
+                id='file'
+                name='send'
+                onChange={handleMailSentTypeChange}
+                className='radio'
+              />
+              <label htmlFor='file' className='label'>
+                Import Emails from File
+              </label>
+              <br />
+              <input
+                type='radio'
+                value='manual'
+                id='manual'
+                name='send'
+                onChange={handleMailSentTypeChange}
+                className='radio'
+              />
+              <label htmlFor='manual' className='label'>
+                Enter Email Ids
+              </label>
+              <br />
+            </div>
             {mailSentType !== "" && (
               <>
                 {mailSentType === "file" ? (
@@ -205,8 +207,15 @@ function SendAssessments(props) {
                       rows='6'
                       cols='30'
                       onChange={(e) => setAllMails(e.target.value)}
-                      className='textarea'
-                      placeholder="Only enter comma or space separated email id's"
+                      className='textarea d-lg-none'
+                      placeholder='Only enter comma or space separated email ids'
+                    ></textarea>
+                    <textarea
+                      rows='6'
+                      cols='50'
+                      onChange={(e) => setAllMails(e.target.value)}
+                      className='textarea d-none d-lg-block'
+                      placeholder='Only enter comma or space separated email ids'
                     ></textarea>
                   </>
                 )}
