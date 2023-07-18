@@ -21,22 +21,22 @@ const Footer = () => {
           </p>
         </div>
         <div className='sb__footer-below-links'>
-          <a>
+          <a className='anchor' href='#'>
             <div>
               <p>Terms & Conditions</p>
             </div>
           </a>
-          <a>
+          <a className='anchor' href='#'>
             <div>
               <p>Privacy</p>
             </div>
           </a>
-          <a>
+          <a className='anchor' href='#'>
             <div>
               <p>About</p>
             </div>
           </a>
-          <a>
+          <a className='anchor' href='#'>
             <div>
               <p>Contact</p>
             </div>
